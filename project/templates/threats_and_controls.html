@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Threats and policy of process: {{ process_name }}</h1>
+    <p style="font-family: 'Times New Roman';font-size: medium">
+        Below is a list of threats associated with the process and possible countermeasures. Click on "<b>more details</b>" to view a detailed report.
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="text-align: center">Threats</th>
+                <th style="text-align: center">Policy</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>
+                    <ol>
+                        {% for threat in clear_list_threats %}
+                            <li>{{ threat }}</li>
+                        {% endfor %}
+                    </ol>
+                </td>
+                <td>
+                    <ul>
+                        {% for control in clear_list_controls %}
+                            <li>{{ control }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="POST" action="{% url 'threat_modeling' pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">More details</button>
+    </form>
+
+{% endblock %}

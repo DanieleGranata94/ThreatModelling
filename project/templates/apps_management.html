@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Select MACM</h1>
+    <p style="font-family: 'Times New Roman';font-size: medium">
+        You can select the MACM from those selected from Neo4j Database to start Threat Modeling.
+    </p>
+
+    <table class="table" id="dataTable">
+        <thead>
+        <tr>
+            <th>App ID</th>
+            <th>Application</th>
+            <th>Select</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+      {% if not error %}
+        {% for appId,application in apps.items %}
+            <tr style="padding:20px">
+                <td style="font-family: 'Times New Roman';font-size: larger"> {{ appId }} </td>
+                <td style="font-family: 'Times New Roman';font-size: larger"> {{ application }}</td>
+                <td>
+                    <form method="POST" action="{% url 'threat_modeling' appId %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">Select app</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'macm_viewer' appId %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">View app</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+      {% else %}
+          <script type="text/javascript">
+            alert("Neo4j connection error")
+          </script>
+
+      {% endif %}
+
+
+
+        </tbody>
+    </table>
+
+{% endblock %}

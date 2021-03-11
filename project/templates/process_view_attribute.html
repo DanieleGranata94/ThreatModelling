@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Attributes enrichment</h1>
+    <p style="font-family: 'Times New Roman';font-size: medium">
+        It is necessary to report the information about attribute of each asset,
+        where this has not been explicitly indicated in the bpmn associated with the process in question.
+    </p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Asset names</th>
+            <th>Asset types</th>
+            <th>Asset attributes</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in task_info %}
+            <tr>
+                <td style="font-family: 'Times New Roman';font-size: larger">
+                    {{ task.0.name }}
+                </td>
+                <td style="font-family: 'Times New Roman';font-size: larger"> {{ task.0.asset_type }} </td>
+                {% if task.1 != 'empty' %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                        <ul>
+                            {% for attribute in task.1 %}
+                                <li>{{ attribute }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                {% elif task.0.asset_type.name == "Send task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in send %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% elif task.0.asset_type.name == "Receive task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in receive %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% elif task.0.asset_type.name == "User task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in user %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% elif task.0.asset_type.name == "Manual task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in manual %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% elif task.0.asset_type.name == "Service task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in service %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% elif task.0.asset_type.name == "Script task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in script %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% elif task.0.asset_type.name == "Business rule task" %}
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <form method="POST" action="{% url 'process_enrichment' task.0.process.pk %}">
+                        {% csrf_token %}
+                        <select name="{{ task.0.pk }}" class="form-control">
+                            {% for value in business %}
+                                <option value="{{ value.pk }}">{{ value.attribute_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="submit" value="Save attributes"/>
+    </form>
+{% endblock %}

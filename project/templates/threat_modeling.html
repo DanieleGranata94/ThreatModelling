@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+    #back{
+        position: absolute;
+        left: 80%;
+        top: 10%;
+    }
+    </style>
+
+    <div class="starter-template" style="margin-top: -6%;"> </div>
+        <h1>Threat model</h1>
+
+        <table class="table">
+        <thead>
+            <tr>
+                <th style="width:50%"><h3>Asset Info</h3></th>
+                <th style="width:50%" ><h3>Threats</h3></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for node in nodes %}
+                <tr>
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <b>Asset Name</b> :   {{ node.name }}
+                    <br>
+                    <b>Asset Type</b> : {{ node.asset_type.acronym }}
+                    <br>
+                    <b>Attribute</b> : Attribute value <br>
+                        <br>
+                    <b>Protocol used</b>
+                        {% for relation in relations %}
+
+                        {% if relation.asset.name == node.name %}
+                            <li>
+                            {{ relation.protocol.protocol}} as {{ relation.role }}
+                            </li>
+                        {% endif %}
+
+                        {% endfor %}
+
+
+                    </td>
+                    <td>
+                        -
+                    </td>
+
+
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{% endblock %}
