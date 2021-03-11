@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+    #back{
+        position: absolute;
+        left: 80%;
+        top: 10%;
+    }
+    </style>
+
+    <div class="starter-template" style="margin-top: -6%;"> </div>
+
+        <h1>Component View</h1>
+
+        <form method="POST" action="{% url 'threat_modeling' appId=appId  %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-sm">Complete Threat Modeling</button>
+        </form>
+
+        <table class="table">
+        <thead>
+            <tr>
+                <th style="width:50%"><h3>Asset Info</h3></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for node in nodes %}
+                <tr>
+                    <td style="font-family: 'Times New Roman';font-size: larger">
+                    <b>Name </b> :   {{ node.node.name }}
+                    <br><br>
+                    <b>Asset Type</b> : {{ node.node.type }}
+                    <br>
+
+                    </td>
+                    <td>
+                    <form style="alignment:  method="POST" action="{% url 'threat_modeling_per_asset' appId=appId assetId=node.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">Select asset</button>
+                    </form>
+                </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{% endblock %}

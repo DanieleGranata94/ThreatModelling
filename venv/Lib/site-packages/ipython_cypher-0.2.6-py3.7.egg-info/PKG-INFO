@@ -1,0 +1,139 @@
+Metadata-Version: 1.1
+Name: ipython-cypher
+Version: 0.2.6
+Summary: Neo4j Cypher cell and line magic for IPython, Pandas, NetworkX and matplotlib
+Home-page: https://github.com/versae/ipython-cypher
+Author: Javier de la Rosa
+Author-email: versae@gmail.com
+License: GPL
+Description: ==============
+        ipython-cypher
+        ==============
+        
+        :Author: Javier de la Rosa, http://versae.es
+        
+        Introduces a ``%cypher`` (and ``%%cypher``) magic for Neo4j in IPython.
+        Inspired by Catherine Devlin's ipython-sql_.
+        
+        Connect to a graph database, using ``neo4jrestclient_`` driver, then issue Cypher
+        commands within IPython or IPython Notebook. See examples_.
+        
+        Install
+        -------
+        As easy as usual::
+        
+            pip install ipython-cypher
+        
+        Usage
+        -----
+        
+        Inside IPython, load the extension::
+        
+            %load_ext cypher
+        
+        And then you are reay to go by using the ``%cypher`` line magic::
+        
+            %cypher MATCH (a)-[]-(b) RETURN a, b
+        
+        Some Cypher queries can be very long, in those cases the the cell magic,
+        ``%%cypher`` comes in handy::
+        
+            %%cypher
+            create
+                // Nodes
+                (Neo:Crew {name:'Neo'}),
+                (Morpheus:Crew {name: 'Morpheus'}),
+                (Trinity:Crew {name: 'Trinity'}),
+                // Relationships
+                (Neo)-[:KNOWS]->(Morpheus),
+                (Neo)-[:LOVES]->(Trinity),
+        
+        Note that by default ``ipython-cypher`` will connect to ``http://localhost:7474/db/data``.
+        
+        Queries results can be stored in a variable and then converted to a Pandas
+        ``DataFrame``::
+        
+            results = %cypher MATCH (a)-[]-(b) RETURN a, b
+            results.get_dataframe()
+        
+        Or to a NetworkX ``MultiDiGraph``::
+        
+            results.get_graph()
+        
+        For more detailed descriptions, please visit the official documentation_.
+        
+        
+        .. _examples: http://nbviewer.ipython.org/github/versae/ipython-cypher/blob/master/docs/examples.ipynb
+        .. _neo4jrestclient: https://pypi.python.org/pypi/neo4jrestclient
+        .. _documentation: http://ipython-cypher.readthedocs.org/en/latest/
+        .. _ipython-sql: https://github.com/catherinedevlin/ipython-sql
+        
+        
+        News
+        ====
+        
+        0.2.6
+        -----
+        
+        *Release date: 25-Mar-2018*
+        
+        * Fix issue with handling of connections aliases.
+        * Fix issue with NetworkX 2.x new syntax (node and edge properties, drawing).
+        
+        0.2.5
+        -----
+        
+        *Release date: 20-Dec-2017*
+        
+        * Fix issue with newer versions of NetworkX.
+        
+        0.2.4
+        -----
+        
+        *Release date: 10-Dec-2016*
+        
+        * Update imports.
+        
+        0.2.3
+        -----
+        
+        *Release date: 22-Sep-2015*
+        
+        * Bugfixes for Python 3.
+        
+        
+        0.2.2
+        -----
+        
+        *Release date: 22-Apr-2015*
+        
+        * Fixed error with `conn` when executing Cypher outside of IPython.
+        
+        
+        0.2.0
+        -----
+        
+        *Release date: 20-Feb-2015*
+        
+        * Added documentation.
+        * Added option to run Cypher queries outside IPython
+        * Added a better graph plot algorithm for matplotlib.
+        
+        
+        0.1.0
+        -----
+        
+        *Release date: 17-Nov-2014*
+        
+        * First public release of ``ipython-cypher``
+        
+        
+Keywords: ipython neo4j cypher pandas networkx neo4jrestclient
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Topic :: Database
+Classifier: Topic :: Database :: Front-Ends
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 2
