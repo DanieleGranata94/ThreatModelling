@@ -36,7 +36,7 @@
 
                     </td>
                     <td>
-                    <form style="alignment:  method="POST" action="{% url 'threat_modeling_per_asset' appId=appId assetId=node.id %}">
+                    <form style="alignment:center"  method="POST" action="{% url 'threat_modeling_per_asset' appId=appId assetId=node.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary btn-sm">Select asset</button>
                     </form>

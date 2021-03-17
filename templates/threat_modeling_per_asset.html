@@ -23,12 +23,17 @@
 
             {% for threat in threats %}
                 <tr>
+
                     <td style="font-family: 'Times New Roman';font-size: larger">
-                    <b>Name</b> :   {{ threat.threat.name }}
+                    <b>Name</b> :   {{ threat.0.name }}
                     <br>
-                    <b>Description</b> : {{ threat.threat.description }}
+                    <b>Description</b> : {{ threat.0.description }}
                     <br>
-                    <b>Source</b> : {{ threat.threat.source }}
+                    <b>Source</b> : {{ threat.0.source }}
+                    <br>
+                    <b>Stride</b> :{% for stride in threat.1 %} {{ stride }}{% if not forloop.last %},{% endif %}{% endfor %}
+                    <br>
+                    <b>Compromised Security Requirement</b> : {% for requirement in threat.2 %} {{ requirement }}{% if not forloop.last %},{% endif %}{% endfor %}
                     <br>
 
                 </tr>

@@ -4,6 +4,7 @@ from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
+
 class MACM(models.Model):
     appId = models.IntegerField(null=True)
     application = models.CharField(max_length=100)
@@ -21,6 +22,9 @@ class Protocol(models.Model):
 class Stride(models.Model):
     category = models.CharField(max_length=100)
 
+class CIA(models.Model):
+    requirement = models.CharField(max_length=100)
+
 class Threat(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500, null=True)
@@ -34,6 +38,7 @@ class Threat(models.Model):
     owasp_loss_of_availability = models.IntegerField(null=True)
     owasp_loss_of_accountability = models.IntegerField(null=True)
     threat_family = models.CharField(max_length=500, null=True)
+
 
 class Control(models.Model):
     name = models.CharField(max_length=100)
@@ -80,6 +85,10 @@ class Threat_Protocol(models.Model):
 class Threat_Stride(models.Model):
     stride = models.ForeignKey(Stride, on_delete=models.CASCADE)
     threat = models.ForeignKey(Threat, on_delete=models.CASCADE)
+
+class Threat_CIA(models.Model):
+    threat = models.ForeignKey(Threat, on_delete=models.CASCADE, null=True)
+    cia = models.ForeignKey(CIA, on_delete=models.CASCADE, null=True)
 
 
 class Relation(models.Model):
